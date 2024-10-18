@@ -22,11 +22,12 @@ namespace HMSApp
     public partial class LoginWindow : Window
     {
         private IConfiguration _configuration;
-        private readonly CustomerService _customerService;
+        private readonly ICustomerService _customerService;
+
         public LoginWindow()
         {
-            _customerService = new CustomerService();
             InitializeComponent();
+            _customerService = ServiceProvider.GetCustomerService();
             LoadConfiguration();
         }
 
@@ -40,21 +41,31 @@ namespace HMSApp
 
         private void btnLogin_Click(object sender, RoutedEventArgs e)
         {
+            string username = txtUser.Text;
+            string password = txtPass.Password;
+
             var adminEmail = _configuration["AdminCredentials:Email"];
             var adminPassword = _configuration["AdminCredentials:Password"];
 
-            var email = txtUser.Text;
-            var password = txtPass.Password;
-
-            if (email == adminEmail && password == adminPassword)
+            if (username == adminEmail && password == adminPassword)
             {
-                var customerManagementWindow = new CustomerWindow();
-                customerManagementWindow.Show();
+                AdminManagementWindow adminWindow = new AdminManagementWindow();
+                adminWindow.Show();
                 this.Close();
             }
             else
             {
-                MessageBox.Show("Invalid credentials!");
+                var customer = _customerService.GetCustomerByUsernameAndPassword(username, password);
+                if (customer != null)
+                {
+                    HomeWindow homeWindow = new HomeWindow(customer);
+                    homeWindow.Show();
+                    this.Close();
+                }
+                else
+                {
+                    MessageBox.Show("Invalid username or password");
+                }
             }
         }
 

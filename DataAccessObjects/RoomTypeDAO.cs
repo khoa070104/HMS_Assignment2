@@ -14,14 +14,31 @@ namespace DataAccessLayer
         {
             new RoomType { RoomTypeID = 1, RoomTypeName = "Single", TypeDescription = "Single room with one bed", TypeNote = "No extra facilities" },
             new RoomType { RoomTypeID = 2, RoomTypeName = "Double", TypeDescription = "Double room with two beds", TypeNote = "Suitable for couples" },
-            // Add more room types here if needed
+            
         };
 
-        public List<RoomType> GetAllRoomTypes() => roomTypes;
+        private static HashSet<int> usedIds = new HashSet<int> { 1, 2 };
+
+        public List<RoomType> GetAllRoomTypes() => roomTypes.OrderBy(rt => rt.RoomTypeID).ToList();
 
         public RoomType GetRoomTypeById(int roomTypeId) => roomTypes.FirstOrDefault(rt => rt.RoomTypeID == roomTypeId);
 
-        public void AddRoomType(RoomType roomType) => roomTypes.Add(roomType);
+        public void AddRoomType(RoomType roomType)
+        {
+            if (usedIds.Contains(roomType.RoomTypeID))
+            {
+                throw new ArgumentException("RoomTypeID already exists.");
+            }
+
+            int newId = 1;
+            while (usedIds.Contains(newId))
+            {
+                newId++;
+            }
+            roomType.RoomTypeID = newId;
+            usedIds.Add(newId);
+            roomTypes.Add(roomType);
+        }
 
         public void UpdateRoomType(RoomType roomType)
         {
@@ -32,6 +49,10 @@ namespace DataAccessLayer
                 existingRoomType.TypeDescription = roomType.TypeDescription;
                 existingRoomType.TypeNote = roomType.TypeNote;
             }
+            else
+            {
+                throw new ArgumentException("RoomType not found.");
+            }
         }
 
         public void DeleteRoomType(int roomTypeId)
@@ -40,6 +61,11 @@ namespace DataAccessLayer
             if (roomType != null)
             {
                 roomTypes.Remove(roomType);
+                usedIds.Remove(roomTypeId);
+            }
+            else
+            {
+                throw new ArgumentException("RoomType not found.");
             }
         }
     }

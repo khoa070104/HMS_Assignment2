@@ -1,0 +1,28 @@
+<Window x:Class="HMSApp.RoomHistoryWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Booking History" Height="450" Width="800"
+        WindowStartupLocation="CenterScreen"
+        FontFamily="Montserrat" FontWeight="Medium"
+        
+        >
+    <Grid>
+        <Grid.Background>
+            <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                <GradientStop Color="#0099FF" Offset="0"/>
+                <GradientStop Color="#FF347BDA" Offset="0.794"/>
+            </LinearGradientBrush>
+        </Grid.Background>
+        <StackPanel Margin="20">
+            <TextBlock Text="Booking History" FontSize="24" Margin="0,0,0,20" Foreground="White"/>
+            <DataGrid x:Name="dgBookingHistory" Height="300" AutoGenerateColumns="False" IsReadOnly="True">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Room Number" Binding="{Binding RoomNumber}" Width="*"/>
+                    <DataGridTextColumn Header="Check-In Date" Binding="{Binding CheckInDate, StringFormat=\{0:dd/MM/yyyy\}}" Width="*"/>
+                    <DataGridTextColumn Header="Check-Out Date" Binding="{Binding CheckOutDate, StringFormat=\{0:dd/MM/yyyy\}}" Width="*"/>
+                    <DataGridTextColumn Header="Total Price" Binding="{Binding TotalPrice, StringFormat=C}" Width="*"/>
+                </DataGrid.Columns>
+            </DataGrid>
+        </StackPanel>
+    </Grid>
+</Window>

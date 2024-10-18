@@ -21,12 +21,12 @@ namespace HMSApp
     /// </summary>
     public partial class CustomerWindow : Window
     {
-        private readonly CustomerService _customerService;
+        private readonly ICustomerService _customerService;
 
         public CustomerWindow()
         {
             InitializeComponent();
-            _customerService = new CustomerService();
+            _customerService = ServiceProvider.GetCustomerService();
             LoadCustomerList();
         }
 
@@ -40,7 +40,7 @@ namespace HMSApp
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, "Error on load list of customers");
+                MessageBox.Show(ex.Message, "Lỗi khi tải danh sách khách hàng", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 
@@ -54,19 +54,17 @@ namespace HMSApp
                     Telephone = txtPhoneNumber.Text,
                     EmailAddress = txtEmail.Text,
                     CustomerBirthday = dpDateOfBirth.SelectedDate,
-                    CustomerStatus = cboStatus.SelectedValue.ToString() == "Active" ? 1 : 2,
-                    Password = txtPassword.ToString(),
+                    CustomerStatus = ((ComboBoxItem)cboStatus.SelectedItem).Tag.ToString() == "1" ? 1 : 2,
+                    Password = txtPassword.Password
                 };
                 _customerService.AddCustomer(customer);
+                MessageBox.Show("Khách hàng đã được thêm thành công!", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Information);
                 resetInput();
+                LoadCustomerList();
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
-            }
-            finally
-            {
-                LoadCustomerList();
+                MessageBox.Show(ex.Message, "Lỗi", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 
@@ -78,29 +76,27 @@ namespace HMSApp
                 {
                     Customer customer = new Customer
                     {
-                        CustomerID = Int32.Parse(txtCustomerID.Text),
+                        CustomerID = int.Parse(txtCustomerID.Text),
                         CustomerFullName = txtFullName.Text,
-                        CustomerBirthday = dpDateOfBirth.SelectedDate,
-                        CustomerStatus = cboStatus.SelectedValue.ToString() == "Active" ? 1 : 2,
                         Telephone = txtPhoneNumber.Text,
                         EmailAddress = txtEmail.Text,
-                        Password = txtPassword.ToString(),
+                        CustomerBirthday = dpDateOfBirth.SelectedDate,
+                        CustomerStatus = ((ComboBoxItem)cboStatus.SelectedItem).Tag.ToString() == "1" ? 1 : 2,
+                        Password = txtPassword.Password
                     };
                     _customerService.UpdateCustomer(customer);
+                    MessageBox.Show("Khách hàng đã được cập nhật thành công!", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Information);
                     resetInput();
+                    LoadCustomerList();
                 }
                 else
                 {
-                    MessageBox.Show("You must select a Customer!");
+                    MessageBox.Show("Vui lòng chọn một khách hàng để cập nhật!", "Cảnh báo", MessageBoxButton.OK, MessageBoxImage.Warning);
                 }
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
-            }
-            finally
-            {
-                LoadCustomerList();
+                MessageBox.Show(ex.Message, "Lỗi", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 
@@ -110,22 +106,24 @@ namespace HMSApp
             {
                 if (!string.IsNullOrEmpty(txtCustomerID.Text))
                 {
-                    int customerId = Int32.Parse(txtCustomerID.Text);
-                    _customerService.DeleteCustomer(customerId);
-                    resetInput();
+                    int customerId = int.Parse(txtCustomerID.Text);
+                    var result = MessageBox.Show("Bạn có chắc chắn muốn xóa khách hàng này?", "Xác nhận xóa", MessageBoxButton.YesNo, MessageBoxImage.Question);
+                    if (result == MessageBoxResult.Yes)
+                    {
+                        _customerService.DeleteCustomer(customerId);
+                        MessageBox.Show("Khách hàng đã được xóa thành công!", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Information);
+                        resetInput();
+                        LoadCustomerList();
+                    }
                 }
                 else
                 {
-                    MessageBox.Show("You must select a Customer!");
+                    MessageBox.Show("Vui lòng chọn một khách hàng để xóa!", "Cảnh báo", MessageBoxButton.OK, MessageBoxImage.Warning);
                 }
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
-            }
-            finally
-            {
-                LoadCustomerList();
+                MessageBox.Show(ex.Message, "Lỗi", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 
@@ -135,21 +133,26 @@ namespace HMSApp
             txtFullName.Text = "";
             txtPhoneNumber.Text = "";
             txtEmail.Text = "";
+            txtPassword.Password = "";
             dpDateOfBirth.SelectedDate = null;
-            cboStatus.SelectedValue = null;
+            cboStatus.SelectedIndex = -1;
         }
 
         private void dgData_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (dgData.SelectedItem != null)
+            if (dgData.SelectedItem != null && dgData.SelectedItem is Customer customer)
             {
-                Customer customer = (Customer)dgData.SelectedItem;
                 txtCustomerID.Text = customer.CustomerID.ToString();
                 txtFullName.Text = customer.CustomerFullName;
                 txtPhoneNumber.Text = customer.Telephone;
                 txtEmail.Text = customer.EmailAddress;
+                txtPassword.Password = customer.Password;
                 dpDateOfBirth.SelectedDate = customer.CustomerBirthday;
-                cboStatus.SelectedValue = customer.CustomerStatus;
+                cboStatus.SelectedIndex = customer.CustomerStatus == 1 ? 0 : 1;
+            }
+            else
+            {
+                resetInput();
             }
         }
 

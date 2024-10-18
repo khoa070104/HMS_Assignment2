@@ -1,0 +1,35 @@
+<Window x:Class="HMSApp.ReportWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Report Statistics" Height="450" Width="800"
+        FontFamily="Montserrat" FontWeight="Medium"
+        WindowStartupLocation="CenterScreen"
+        >
+    <Grid>
+        <Grid.Background>
+            <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                <GradientStop Color="#0099FF" Offset="0"/>
+                <GradientStop Color="#FF347BDA" Offset="0.794"/>
+                <GradientStop Color="#FF60B1E7" Offset="1"/>
+                <GradientStop Color="#FF596FDD" Offset="0.309"/>
+                <GradientStop Color="#FF472FDE" Offset="0.484"/>
+            </LinearGradientBrush>
+        </Grid.Background>
+        <StackPanel Margin="20">
+            <Label Content="Start Date:" />
+            <DatePicker x:Name="StartDatePicker" Margin="0,0,0,10"/>
+            <Label Content="End Date:" />
+            <DatePicker x:Name="EndDatePicker" Margin="0,0,0,10"/>
+            <Button Content="Generate Report" Click="GenerateReport_Click" 
+                    Background="#FF0099FF" Foreground="White" Padding="10,5"/>
+            <DataGrid x:Name="ReportDataGrid" Margin="0,20,0,0" AutoGenerateColumns="False">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Room Number" Width="300" Binding="{Binding RoomNumber}"/>
+                    <DataGridTextColumn Header="Total Bookings" Width="200" Binding="{Binding TotalBookings}"/>
+                    <DataGridTextColumn Header="Total Revenue" Binding="{Binding TotalRevenue, StringFormat=C}"/>
+                    
+                </DataGrid.Columns>
+            </DataGrid>
+        </StackPanel>
+    </Grid>
+</Window>

@@ -1,39 +1,28 @@
 ﻿using BusinessObjects;
+using DataAccessLayer;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Repositories
 {
     public class CustomerRepo : ICustomerRepo
     {
-        private static List<Customer> customers = new List<Customer>();
+        private readonly CustomerDAO _customerDao = new();
 
-        public List<Customer> GetAllCustomers() => customers;
+        public List<Customer> GetAllCustomers() => _customerDao.GetAllCustomers();
 
-        public Customer GetCustomerById(int customerId) =>
-            customers.FirstOrDefault(c => c.CustomerID == customerId);
+        public Customer GetCustomerById(int customerId) => _customerDao.GetCustomerById(customerId);
 
-        public void AddCustomer(Customer customer) => customers.Add(customer);
+        public void AddCustomer(Customer customer) => _customerDao.AddCustomer(customer);
 
-        public void UpdateCustomer(Customer customer)
+        public void UpdateCustomer(Customer customer) => _customerDao.UpdateCustomer(customer);
+
+        public void DeleteCustomer(int customerId) => _customerDao.DeleteCustomer(customerId);
+
+        public Customer GetCustomerByUsernameAndPassword(string username, string password)
         {
-            var existingCustomer = GetCustomerById(customer.CustomerID);
-            if (existingCustomer != null)
-            {
-                existingCustomer.CustomerFullName = customer.CustomerFullName;
-                existingCustomer.Telephone = customer.Telephone;
-                existingCustomer.EmailAddress = customer.EmailAddress;
-                existingCustomer.CustomerBirthday = customer.CustomerBirthday;
-                existingCustomer.CustomerStatus = customer.CustomerStatus;
-                existingCustomer.Password = customer.Password;
-            }
-        }
-
-        public void DeleteCustomer(int customerId)
-        {
-            var customer = GetCustomerById(customerId);
-            if (customer != null)
-            {
-                customers.Remove(customer);
-            }
+            return _customerDao.GetAllCustomers()
+                .FirstOrDefault(c => c.EmailAddress == username && c.Password == password);
         }
     }
 }

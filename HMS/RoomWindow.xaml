@@ -1,0 +1,70 @@
+<Window x:Class="HMSApp.RoomWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:HMSApp"
+        mc:Ignorable="d"
+        WindowStartupLocation="CenterScreen"
+        Title="Room Management" Height="670" Width="800"
+        FontFamily="Montserrat" FontWeight="Medium">
+
+    <Grid Margin="0,0,-9,-10">
+        <Grid.Background>
+            <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                <GradientStop Color="#0099FF" Offset="0"/>
+                <GradientStop Color="#FF347BDA" Offset="0.794"/>
+                <GradientStop Color="#FF60B1E7" Offset="1"/>
+                <GradientStop Color="#FF596FDD" Offset="0.309"/>
+                <GradientStop Color="#FF472FDE" Offset="0.484"/>
+            </LinearGradientBrush>
+        </Grid.Background>
+
+        <Label x:Name="label" VerticalAlignment="Top" Content="Room Management" Grid.Row="0" FontSize="36" HorizontalAlignment="Center" Width="407" Height="59" FontFamily="Montserrat" FontWeight="Medium"/>
+
+        <Label x:Name="label1" VerticalAlignment="Top" Margin="13,70,700,0" Content="Room ID" Grid.Column="0" RenderTransformOrigin="0.5,0.5" FontFamily="Montserrat" FontWeight="Medium"/>
+        <TextBox x:Name="txtRoomID" VerticalAlignment="Top" Margin="114,71,369,0" Text="" TextWrapping="Wrap" IsEnabled="False" Height="26" FontFamily="Montserrat" FontWeight="Medium"/>
+
+        <Label x:Name="label2" VerticalAlignment="Top" Margin="13,109,695,0" Content="Room Number" Grid.Column="0" RenderTransformOrigin="1.003,-3.159" FontFamily="Montserrat" FontWeight="Medium"/>
+        <TextBox x:Name="txtRoomNumber" VerticalAlignment="Top" Margin="114,109,369,0" Text="" TextWrapping="Wrap" Height="28" FontFamily="Montserrat" FontWeight="Medium"/>
+
+        <Label x:Name="label3" VerticalAlignment="Top" Margin="13,146,695,0" Content="Description" Grid.Column="0" FontFamily="Montserrat" FontWeight="Medium"/>
+        <TextBox x:Name="txtDescription" VerticalAlignment="Top" Margin="114,146,369,0" Text="" TextWrapping="Wrap" Height="28" FontFamily="Montserrat" FontWeight="Medium"/>
+
+        <Label x:Name="label4" VerticalAlignment="Top" Margin="13,185,700,0" Content="Max Capacity" Grid.Column="0" FontFamily="Montserrat" FontWeight="Medium"/>
+        <TextBox x:Name="txtMaxCapacity" VerticalAlignment="Top" Margin="114,185,369,0" Text="" TextWrapping="Wrap" RenderTransformOrigin="0.5,0.5" Height="27" FontFamily="Montserrat" FontWeight="Medium"/>
+
+        <Label x:Name="label5" VerticalAlignment="Top" Margin="451,71,256,0" Content="Price Per Date" Grid.Column="0" RenderTransformOrigin="0.405,0.633" FontFamily="Montserrat" FontWeight="Medium"/>
+        <TextBox x:Name="txtPricePerDate" Margin="541,70,28,0" VerticalAlignment="Top" Height="27" FontFamily="Montserrat" FontWeight="Medium"/>
+
+        <Label x:Name="label6" Margin="451,109,274,0" Content="Room Type" VerticalAlignment="Top" RenderTransformOrigin="0.504,0.899" FontFamily="Montserrat" FontWeight="Medium"/>
+        <ComboBox x:Name="cboRoomType" 
+          VerticalAlignment="Top"
+          SelectedValuePath="RoomTypeID" 
+          DisplayMemberPath="RoomTypeName"
+          SelectedValue="{Binding RoomTypeID, Mode=TwoWay}" Margin="542,109,28,0" Height="25" FontFamily="Montserrat" FontWeight="Medium"/>
+
+        <DataGrid x:Name="dgData" 
+          AutoGenerateColumns="False" 
+          Margin="114,235,36,0" 
+          VerticalAlignment="Top" 
+          SelectionChanged="dgData_SelectionChanged" 
+          Height="311"
+          FontFamily="Montserrat" FontWeight="Medium">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Room ID" Binding="{Binding RoomID}"  />
+                <DataGridTextColumn Header="Room Number" Binding="{Binding RoomNumber}" Width="100" />
+                <DataGridTextColumn Header="Description" Binding="{Binding RoomDescription}" Width="200" />
+                <DataGridTextColumn Header="Max Capacity" Binding="{Binding RoomMaxCapacity}" Width="100" />
+                <DataGridTextColumn Header="Price Per Date" Binding="{Binding RoomPricePerDate, StringFormat=C}" Width="100" />
+                <DataGridTextColumn Header="Room Type" Binding="{Binding RoomTypeID}" Width="100" />
+            </DataGrid.Columns>
+        </DataGrid>
+        <Button x:Name="btnCreate" VerticalAlignment="Top" Content="Create" HorizontalAlignment="Left" Margin="475,183,0,0" Width="120" Background="#FF0099FF" BorderBrush="White" Foreground="White" Click="btnCreate_Click" Height="30" FontFamily="Montserrat" FontWeight="Medium"/>
+        <Button x:Name="btnUpdate"  VerticalAlignment="Top" Content="Update" HorizontalAlignment="Left" Margin="649,183,0,0" Width="118" Background="#FF1B7140" Foreground="White" RenderTransformOrigin="0.37,0.2" Click="btnUpdate_Click" Height="30" FontFamily="Montserrat" FontWeight="Medium"/>
+        <Button x:Name="btnDelete" VerticalAlignment="Top"  Content="Delete" HorizontalAlignment="Left" Margin="114,558,0,0"  Width="120" Foreground="White" Background="#FFA2AA3D" Click="btnDelete_Click" Height="30" FontFamily="Montserrat" FontWeight="Medium"/>
+        <Button x:Name="btnClose" VerticalAlignment="Top" Content="Close" HorizontalAlignment="Left" Margin="661,595,0,0" Width="120" Background="#FFEF8F18" Foreground="White" Click="btnClose_Click" Height="30" FontFamily="Montserrat" FontWeight="Medium"/>
+        <!-- Thêm nút này vào Grid -->
+        <Button x:Name="btnCreateReport" Content="Create Report" HorizontalAlignment="Left" Margin="261,558,0,0" VerticalAlignment="Top" Width="120" Background="#FF1B7140" Foreground="White" Click="btnCreateReport_Click" Height="30" FontFamily="Montserrat" FontWeight="Medium"/>
+    </Grid>
+</Window>

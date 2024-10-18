@@ -15,14 +15,30 @@ namespace DataAccessLayer
         {
             new Room { RoomID = 1, RoomNumber = "101", RoomDescription = "Single Room", RoomMaxCapacity = 1, RoomStatus = 1, RoomPricePerDate = 50.0m, RoomTypeID = 1 },
             new Room { RoomID = 2, RoomNumber = "102", RoomDescription = "Double Room", RoomMaxCapacity = 2, RoomStatus = 1, RoomPricePerDate = 80.0m, RoomTypeID = 2 },
-            // Add more rooms here if needed
         };
 
-        public List<Room> GetAllRooms() => rooms;
+        private static HashSet<int> usedIds = new HashSet<int> { 1, 2 };
+
+        public List<Room> GetAllRooms() => rooms.OrderBy(r => r.RoomID).ToList();
 
         public Room GetRoomById(int roomId) => rooms.FirstOrDefault(r => r.RoomID == roomId);
 
-        public void AddRoom(Room room) => rooms.Add(room);
+        public void AddRoom(Room room)
+        {
+            if (usedIds.Contains(room.RoomID))
+            {
+                throw new ArgumentException("RoomID already exists.");
+            }
+
+            int newId = 1;
+            while (usedIds.Contains(newId))
+            {
+                newId++;
+            }
+            room.RoomID = newId;
+            usedIds.Add(newId);
+            rooms.Add(room);
+        }
 
         public void UpdateRoom(Room room)
         {
@@ -36,6 +52,10 @@ namespace DataAccessLayer
                 existingRoom.RoomPricePerDate = room.RoomPricePerDate;
                 existingRoom.RoomTypeID = room.RoomTypeID;
             }
+            else
+            {
+                throw new ArgumentException("Room not found.");
+            }
         }
 
         public void DeleteRoom(int roomId)
@@ -44,6 +64,11 @@ namespace DataAccessLayer
             if (room != null)
             {
                 rooms.Remove(room);
+                usedIds.Remove(roomId);
+            }
+            else
+            {
+                throw new ArgumentException("Room not found.");
             }
         }
     }

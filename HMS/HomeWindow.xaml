@@ -1,0 +1,31 @@
+<Window x:Class="HMSApp.HomeWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Home" Height="450" Width="800"
+        WindowStartupLocation="CenterScreen"
+        FontFamily="Montserrat" FontWeight="Medium">
+    <Grid>
+        <Grid.Background>
+            <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                <GradientStop Color="#0099FF" Offset="0"/>
+                <GradientStop Color="#FF347BDA" Offset="0.794"/>
+                <GradientStop Color="#FF60B1E7" Offset="1"/>
+                <GradientStop Color="#FF596FDD" Offset="0.309"/>
+                <GradientStop Color="#FF472FDE" Offset="0.484"/>
+            </LinearGradientBrush>
+        </Grid.Background>
+        <TextBlock x:Name="lblWelcome" Text="Hello, Username" FontSize="18" Foreground="White" Margin="10,10,636,0" FontStyle="Italic" VerticalAlignment="Top"/>
+        <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
+            
+            <TextBlock Text="Welcome to HMS" FontSize="24" Margin="0,0,0,20" Foreground="White"/>
+            <Button Content="Book Room" Width="200" Height="50" Margin="0,10" Click="BookRoom_Click"
+                    Background="#FF0099FF" Foreground="White"/>
+            <Button Content="Booking History" Width="200" Height="50" Margin="0,10" Click="BookingHistory_Click"
+                    Background="#FF1B7140" Foreground="White"/>
+            <Button Content="Edit Profile" Width="200" Height="50" Margin="0,10" Click="EditProfile_Click"
+                    Background="#FFA2AA3D" Foreground="White"/>
+            <Button Content="Logout" Width="200" Height="50" Margin="0,10" Click="Logout_Click"
+                    Background="#FFEF8F18" Foreground="White"/>
+        </StackPanel>
+    </Grid>
+</Window>

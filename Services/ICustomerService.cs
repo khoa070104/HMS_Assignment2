@@ -1,19 +1,15 @@
-﻿using BusinessObjects;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using BusinessObjects;
 
-namespace Repositories
+namespace Services
 {
-    public interface ICustomerRepo
+    public interface ICustomerService
     {
         List<Customer> GetAllCustomers();
-        Customer GetCustomerById(int customerId);
+        Customer GetCustomerById(int id);
         void AddCustomer(Customer customer);
         void UpdateCustomer(Customer customer);
-        void DeleteCustomer(int customerId);
+        void DeleteCustomer(int id);
         Customer GetCustomerByUsernameAndPassword(string username, string password);
     }
 }

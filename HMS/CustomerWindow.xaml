@@ -6,67 +6,72 @@
         xmlns:local="clr-namespace:HMSApp"
         mc:Ignorable="d"
         WindowStartupLocation="CenterScreen"
-        Title="Customer Management" Height="670" Width="710">
-    <Grid>
-        <Grid>
-            <Grid.Background>
-                <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
-                    <GradientStop Color="#0099FF" Offset="0"/>
-                    <GradientStop Color="#FF347BDA" Offset="0.794"/>
-                    <GradientStop Color="#FF60B1E7" Offset="1"/>
-                    <GradientStop Color="#FF596FDD" Offset="0.309"/>
-                    <GradientStop Color="#FF472FDE" Offset="0.484"/>
-                </LinearGradientBrush>
-            </Grid.Background>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="60"/>
-                <RowDefinition Height="30"/>
-                <RowDefinition Height="30"/>
-                <RowDefinition Height="30"/>
-                <RowDefinition Height="30"/>
-                <RowDefinition Height="30"/>
-                <RowDefinition/>
-                <RowDefinition Height="331.04"/>
-            </Grid.RowDefinitions>
+        Title="Customer Management" Height="670" Width="800">
 
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="119.415"/>
-                <ColumnDefinition Width="30.585"/>
-                <ColumnDefinition Width="47*"/>
-                <ColumnDefinition Width="513*"/>
-            </Grid.ColumnDefinitions>
+    <Grid Margin="0,0,-9,-10">
+        <Grid.Background>
+            <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                <GradientStop Color="#0099FF" Offset="0"/>
+                <GradientStop Color="#FF347BDA" Offset="0.794"/>
+                <GradientStop Color="#FF60B1E7" Offset="1"/>
+                <GradientStop Color="#FF596FDD" Offset="0.309"/>
+                <GradientStop Color="#FF472FDE" Offset="0.484"/>
+            </LinearGradientBrush>
+        </Grid.Background>
 
-            <Label x:Name="label" Content="Customer Management" Grid.Column="3" Grid.Row="0" FontSize="36" HorizontalAlignment="Left" Width="466"/>
 
-            <Label x:Name="label1" Margin="2,2,2,2" Content="Customer ID" Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="2"/>
-            <TextBox x:Name="txtCustomerID" Margin="4,4,10,4" Grid.Column="2" Grid.Row="1" Text="" TextWrapping="Wrap" Grid.ColumnSpan="2" IsEnabled="False" />
+        <Label x:Name="label" VerticalAlignment="Top" Content="Customer Management" Grid.Row="0" FontSize="36" HorizontalAlignment="Center" Width="407" Height="59"/>
 
-            <Label x:Name="label2" Margin="2,2,2,2" Content="Full Name" Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="2" />
-            <TextBox x:Name="txtFullName" Margin="4,4,10,4" Grid.Column="2" Grid.Row="2" Text="" TextWrapping="Wrap" Grid.ColumnSpan="2" />
+        <Label x:Name="label1" VerticalAlignment="Top" Margin="13,70,700,0" Content="Customer ID" Grid.Column="0" RenderTransformOrigin="0.5,0.5"/>
 
-            <Label x:Name="label3" Margin="2,2,2,2" Content="Phone Number" Grid.Column="0" Grid.Row="3" Grid.ColumnSpan="2"/>
-            <TextBox x:Name="txtPhoneNumber" Margin="4,4,10,4" Grid.Column="2" Grid.Row="3" Text="" TextWrapping="Wrap" Grid.ColumnSpan="2" />
+        <TextBox x:Name="txtCustomerID" VerticalAlignment="Top" Margin="114,71,369,0" Text="" TextWrapping="Wrap" IsEnabled="False" Height="26" />
 
-            <Label x:Name="label4" Margin="2,2,2,2" Content="Email" Grid.Column="0" Grid.Row="4" Grid.ColumnSpan="2"/>
-            <TextBox x:Name="txtEmail" Margin="4,4,10,4" Grid.Column="2" Grid.Row="4" Text="" TextWrapping="Wrap" Grid.ColumnSpan="2" />
+        <Label x:Name="label2" VerticalAlignment="Top" Margin="23,109,695,0" Content="Full Name" Grid.Column="0" RenderTransformOrigin="1.003,-3.159" />
+        <TextBox x:Name="txtFullName" VerticalAlignment="Top" Margin="114,109,369,0" Text="" TextWrapping="Wrap" Height="28" />
 
-            <Label x:Name="label5" Margin="2,2,2,2" Content="Date of Birth" Grid.Column="0" Grid.Row="5" Grid.ColumnSpan="2"/>
-            <DatePicker x:Name="dpDateOfBirth" Margin="4,4,283,4" Grid.Column="2" Grid.Row="5" Grid.ColumnSpan="2" />
+        <Label x:Name="label3" VerticalAlignment="Top" Margin="445,146,253,0" Content="Phone Number" Grid.Column="0"/>
+        <TextBox x:Name="txtPhoneNumber" VerticalAlignment="Top" Margin="542,146,28,0" Text="" TextWrapping="Wrap" Height="28" />
 
-            <Label x:Name="label6" Margin="243,4,224,0" Content="Status" Grid.Column="3" Grid.Row="5"/>
-            <ComboBox x:Name="cboStatus" Margin="294,10,10,2" Grid.Column="3" Grid.Row="5">
-                <ComboBoxItem Content="Active"/>
-                <ComboBoxItem Content="Inactive"/>
-            </ComboBox>
+        <Label x:Name="label4" VerticalAlignment="Top" Margin="28,185,700,0" Content="Email" Grid.Column="0"/>
+        <TextBox x:Name="txtEmail" VerticalAlignment="Top" Margin="114,185,369,0" Text="" TextWrapping="Wrap" RenderTransformOrigin="0.5,0.5" Height="27" />
 
-            <DataGrid x:Name="dgData" Margin="4,37,10,106" Grid.Column="2" Grid.Row="6" Grid.ColumnSpan="2" SelectionChanged="dgData_SelectionChanged" Grid.RowSpan="2" />
-            <Button x:Name="btnCreate" Content="Create" HorizontalAlignment="Left" Margin="10,278,0,10" Grid.Row="7" Width="121" Background="#FF0099FF" BorderBrush="White" Foreground="White" Grid.ColumnSpan="2" Grid.Column="2" Click="btnCreate_Click"/>
-            <Button x:Name="btnUpdate" Content="Update" Grid.Column="3" HorizontalAlignment="Left" Margin="109,278,0,10" Grid.Row="7" Width="118" Background="#FF1B7140" Foreground="White" RenderTransformOrigin="0.37,0.2" Click="btnUpdate_Click"/>
-            <Button x:Name="btnDelete" Content="Delete" Grid.Column="3" HorizontalAlignment="Left" Margin="243,278,0,10" Grid.Row="7" Width="127" Foreground="White" Background="#FFA2AA3D" Click="btnDelete_Click"/>
 
-            <Button x:Name="btnClose" Content="Close" Grid.Column="3" HorizontalAlignment="Left" Margin="383,278,0,10" Grid.Row="7" Width="120" Background="#FFEF8F18" Foreground="White" Click="btnClose_Click"/>
-            <PasswordBox x:Name="txtPassword" Margin="4,4,10,91" Grid.Column="2" Grid.Row="6"   Grid.ColumnSpan="2" />
-            <Label x:Name="label7" Margin="0,28,4,61" Content="Password" Grid.Column="0" Grid.Row="5" Grid.ColumnSpan="2" Grid.RowSpan="2"/>
-        </Grid>
+
+        <Label x:Name="label5" VerticalAlignment="Top" Margin="457,71,268,0" Content="Date of Birth" Grid.Column="0"/>
+        <DatePicker x:Name="dpDateOfBirth" Margin="541,70,0,0" VerticalAlignment="Top" Height="27" />
+
+        <Label x:Name="label6" Margin="481,108,271,0" Content="Status" VerticalAlignment="Top" RenderTransformOrigin="0.504,0.899"/>
+
+        <ComboBox x:Name="cboStatus" 
+          VerticalAlignment="Top"
+          SelectedValuePath="Tag" 
+          SelectedValue="{Binding CustomerStatus, Mode=TwoWay}" Margin="542,109,28,0" Height="25">
+            <ComboBoxItem Content="Active" Tag="1"/>
+            <ComboBoxItem Content="Inactive" Tag="2"/>
+        </ComboBox>
+
+        <DataGrid x:Name="dgData" 
+          AutoGenerateColumns="False" 
+          Margin="114,235,36,0" 
+          VerticalAlignment="Top" 
+          SelectionChanged="dgData_SelectionChanged" 
+          Height="311">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Customer ID" Binding="{Binding CustomerID}"  />
+                <DataGridTextColumn Header="Full Name" Binding="{Binding CustomerFullName}" Width="200" />
+                <DataGridTextColumn Header="Phone Number" Binding="{Binding Telephone}" Width="100" />
+                <DataGridTextColumn Header="Email" Binding="{Binding EmailAddress}" Width="100" />
+                <DataGridTextColumn Header="Birthday" Binding="{Binding CustomerBirthday, StringFormat=\{0:MM/dd/yyyy\}}" Width="100" />
+                <DataGridTextColumn Header="Status" Binding="{Binding CustomerStatus}" Width="90" />
+            </DataGrid.Columns>
+        </DataGrid>
+        <Button x:Name="btnCreate" VerticalAlignment="Top" Content="Create" HorizontalAlignment="Left" Margin="507,183,0,0" Width="121" Background="#FF0099FF" BorderBrush="White" Foreground="White" Click="btnCreate_Click" Height="29"/>
+        <Button x:Name="btnUpdate"  VerticalAlignment="Top" Content="Update" HorizontalAlignment="Left" Margin="663,182,0,0" Width="118" Background="#FF1B7140" Foreground="White" RenderTransformOrigin="0.37,0.2" Click="btnUpdate_Click" Height="30"/>
+        <Button x:Name="btnDelete" VerticalAlignment="Top"  Content="Delete" HorizontalAlignment="Left" Margin="114,558,0,0"  Width="120" Foreground="White" Background="#FFA2AA3D" Click="btnDelete_Click" Height="30"/>
+
+        <Button x:Name="btnClose" VerticalAlignment="Top" Content="Close" HorizontalAlignment="Left" Margin="661,595,0,0" Width="120" Background="#FFEF8F18" Foreground="White" Click="btnClose_Click" Height="30"/>
+        <PasswordBox x:Name="txtPassword" Margin="114,146,369,0" VerticalAlignment="Top" Height="28" />
+        <Label x:Name="label7" VerticalAlignment="Top" Margin="23,145,721,0" Content="Password" Grid.Column="0"/>
+
     </Grid>
 </Window>
