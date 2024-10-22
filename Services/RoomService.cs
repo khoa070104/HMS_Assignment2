@@ -13,6 +13,14 @@ namespace Services
         private readonly IBookingRepo _bookingRepository;
         private readonly ICustomerRepo _customerRepository;
 
+        public RoomService()
+        {
+            _roomRepository = new RoomRepo();
+            _roomTypeRepository = new RoomTypeRepo();
+            _bookingRepository = new BookingRepo();
+            _customerRepository = new CustomerRepo();
+        }
+
         public RoomService(IRoomRepo roomRepo, IRoomTypeRepo roomTypeRepo, IBookingRepo bookingRepo, ICustomerRepo customerRepo)
         {
             _roomRepository = roomRepo;
@@ -21,11 +29,11 @@ namespace Services
             _customerRepository = customerRepo;
         }
 
-        public List<Room> GetAllRooms() => _roomRepository.GetAllRooms();
+        public IEnumerable<RoomInformation> GetAllRooms() => _roomRepository.GetAllRooms();
 
-        public Room GetRoomById(int id) => _roomRepository.GetRoomById(id);
+        public RoomInformation GetRoomById(int id) => _roomRepository.GetRoomById(id);
 
-        public void AddRoom(Room room)
+        public void AddRoom(RoomInformation room)
         {
             if (!IsValidRoomTypeId(room.RoomTypeID))
             {
@@ -41,7 +49,7 @@ namespace Services
             }
         }
 
-        public void UpdateRoom(Room room)
+        public void UpdateRoom(RoomInformation room)
         {
             if (!IsValidRoomTypeId(room.RoomTypeID))
             {
@@ -49,9 +57,19 @@ namespace Services
             }
             try
             {
-                _roomRepository.UpdateRoom(room);
+                // Chỉ gửi các thuộc tính cần thiết để cập nhật
+                var roomToUpdate = new RoomInformation
+                {
+                    RoomID = room.RoomID,
+                    RoomNumber = room.RoomNumber,
+                    RoomDescription = room.RoomDescription,
+                    RoomMaxCapacity = room.RoomMaxCapacity,
+                    RoomPricePerDate = room.RoomPricePerDate,
+                    RoomTypeID = room.RoomTypeID
+                };
+                _roomRepository.UpdateRoom(roomToUpdate);
             }
-            catch (ArgumentException ex)
+            catch (Exception ex)
             {
                 throw new Exception("Error updating room: " + ex.Message);
             }
@@ -77,7 +95,7 @@ namespace Services
         public IEnumerable<RoomReport> GenerateReport(DateTime startDate, DateTime endDate)
         {
             var allBookings = _bookingRepository.GetAllBookings()
-                .Where(b => b.CheckInDate >= startDate && b.CheckOutDate <= endDate)
+                .Where(b => b.BookingDate >= startDate && b.BookingDate <= endDate)
                 .ToList();
 
             var roomReports = _roomRepository.GetAllRooms()
@@ -92,31 +110,34 @@ namespace Services
 
             foreach (var booking in allBookings)
             {
-                var report = roomReports.First(r => r.RoomNumber == booking.RoomNumber);
-                report.TotalBookings++;
-                report.TotalRevenue += CalculateTotalPrice(booking);
-                
-                var customer = _customerRepository.GetCustomerById(booking.CustomerID);
-                if (customer != null && !report.CustomerNames.Contains(customer.CustomerFullName))
+                foreach (var detail in booking.BookingDetails)
                 {
-                    report.CustomerNames.Add(customer.CustomerFullName);
+                    var report = roomReports.First(r => r.RoomNumber == detail.Room.RoomNumber);
+                    report.TotalBookings++;
+                    report.TotalRevenue += detail.ActualPrice;
+                    
+                    var customer = _customerRepository.GetCustomerById(booking.CustomerID);
+                    if (customer != null && !report.CustomerNames.Contains(customer.CustomerFullName))
+                    {
+                        report.CustomerNames.Add(customer.CustomerFullName);
+                    }
                 }
             }
 
             return roomReports.OrderByDescending(r => r.TotalRevenue);
         }
 
-        public List<RoomType> GetAllRoomTypes()
+        public IEnumerable<RoomType> GetAllRoomTypes()
         {
             return _roomTypeRepository.GetAllRoomTypes();
         }
 
-        public List<Room> GetAvailableRooms(int roomTypeId, DateTime checkIn, DateTime checkOut)
+        public IEnumerable<RoomInformation> GetAvailableRooms(int roomTypeId, DateTime checkIn, DateTime checkOut)
         {
             var allRooms = _roomRepository.GetRoomsByType(roomTypeId);
             var bookedRooms = _bookingRepository.GetBookedRooms(checkIn, checkOut);
 
-            return allRooms.Where(room => !bookedRooms.Contains(room.RoomID)).ToList();
+            return allRooms.Where(room => !bookedRooms.Contains(room.RoomID));
         }
 
         public void BookRoom(int customerId, int roomId, DateTime checkIn, DateTime checkOut)
@@ -127,34 +148,35 @@ namespace Services
                 throw new ArgumentException("Invalid room ID");
             }
 
-            var booking = new Booking
+            var booking = new BookingReservation
             {
                 CustomerID = customerId,
-                RoomID = roomId,
-                RoomNumber = room.RoomNumber,
-                CheckInDate = checkIn,
-                CheckOutDate = checkOut,
-                TotalPrice = CalculateTotalPrice(room, checkIn, checkOut)
+                BookingDate = DateTime.Now,
+                TotalPrice = CalculateTotalPrice(room, checkIn, checkOut),
+                BookingStatus = 1 // Assuming 1 is for Active
             };
+
+            var bookingDetail = new BookingDetail
+            {
+                RoomID = roomId,
+                StartDate = checkIn,
+                EndDate = checkOut,
+                ActualPrice = CalculateTotalPrice(room, checkIn, checkOut)
+            };
+
+            booking.BookingDetails = new List<BookingDetail> { bookingDetail };
 
             _bookingRepository.AddBooking(booking);
         }
 
-        public List<Booking> GetBookingHistory(int customerId)
+        public IEnumerable<BookingReservation> GetBookingHistory(int customerId)
         {
             return _bookingRepository.GetBookingsByCustomer(customerId);
         }
 
-        private decimal CalculateTotalPrice(Room room, DateTime checkIn, DateTime checkOut)
+        private decimal CalculateTotalPrice(RoomInformation room, DateTime checkIn, DateTime checkOut)
         {
             int numberOfDays = (int)(checkOut - checkIn).TotalDays;
-            return room.RoomPricePerDate * numberOfDays;
-        }
-
-        private decimal CalculateTotalPrice(Booking booking)
-        {
-            var room = _roomRepository.GetRoomById(booking.RoomID);
-            int numberOfDays = (int)(booking.CheckOutDate - booking.CheckInDate).TotalDays;
             return room.RoomPricePerDate * numberOfDays;
         }
     }

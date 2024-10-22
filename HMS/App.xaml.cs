@@ -1,6 +1,12 @@
 ﻿using System.Configuration;
 using System.Data;
 using System.Windows;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using Services;
+using HMSApp; 
+using Microsoft.EntityFrameworkCore;
+using DataAccessObjects;
 
 namespace HMS
 {
@@ -9,6 +15,7 @@ namespace HMS
     /// </summary>
     public partial class App : Application
     {
+        
     }
 
 }

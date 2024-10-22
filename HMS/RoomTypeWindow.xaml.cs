@@ -13,7 +13,7 @@ namespace HMSApp
         public RoomTypeWindow()
         {
             InitializeComponent();
-            _roomTypeService = ServiceProvider.GetRoomTypeService();
+            _roomTypeService = new RoomTypeService();
             LoadRoomTypeList();
         }
 
@@ -27,7 +27,7 @@ namespace HMSApp
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, "Error on load list of room types");
+                MessageBox.Show(ex.Message, "Lỗi khi tải danh sách loại phòng", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 
@@ -65,17 +65,18 @@ namespace HMSApp
                         TypeNote = txtTypeNote.Text
                     };
                     _roomTypeService.UpdateRoomType(roomType);
+                    MessageBox.Show("Loại phòng đã được cập nhật thành công!", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Information);
                     resetInput();
                     LoadRoomTypeList();
                 }
                 else
                 {
-                    MessageBox.Show("You must select a Room Type!");
+                    MessageBox.Show("Vui lòng chọn một loại phòng để cập nhật!", "Cảnh báo", MessageBoxButton.OK, MessageBoxImage.Warning);
                 }
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                MessageBox.Show(ex.Message, "Lỗi", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 

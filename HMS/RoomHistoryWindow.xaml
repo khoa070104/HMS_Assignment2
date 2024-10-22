@@ -17,10 +17,12 @@
             <TextBlock Text="Booking History" FontSize="24" Margin="0,0,0,20" Foreground="White"/>
             <DataGrid x:Name="dgBookingHistory" Height="300" AutoGenerateColumns="False" IsReadOnly="True">
                 <DataGrid.Columns>
-                    <DataGridTextColumn Header="Room Number" Binding="{Binding RoomNumber}" Width="*"/>
-                    <DataGridTextColumn Header="Check-In Date" Binding="{Binding CheckInDate, StringFormat=\{0:dd/MM/yyyy\}}" Width="*"/>
-                    <DataGridTextColumn Header="Check-Out Date" Binding="{Binding CheckOutDate, StringFormat=\{0:dd/MM/yyyy\}}" Width="*"/>
-                    <DataGridTextColumn Header="Total Price" Binding="{Binding TotalPrice, StringFormat=C}" Width="*"/>
+                    <DataGridTextColumn Header="Booking ID" Binding="{Binding BookingReservationID}" Width="auto"/>
+                    <DataGridTextColumn Header="Room Number" Binding="{Binding RoomNumber}" Width="auto"/>
+                    <DataGridTextColumn Header="Check-In Date" Binding="{Binding StartDate, StringFormat=\{0:dd/MM/yyyy\}}" Width="auto"/>
+                    <DataGridTextColumn Header="Check-Out Date" Binding="{Binding EndDate, StringFormat=\{0:dd/MM/yyyy\}}" Width="auto"/>
+                    <DataGridTextColumn Header="Total Price" Binding="{Binding ActualPrice, StringFormat=C}" Width="auto"/>
+                    <DataGridTextColumn Header="Booking Status" Binding="{Binding BookingStatus}" Width="auto"/>
                 </DataGrid.Columns>
             </DataGrid>
         </StackPanel>

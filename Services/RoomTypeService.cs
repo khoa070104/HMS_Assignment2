@@ -9,49 +9,35 @@ namespace Services
     {
         private readonly IRoomTypeRepo _roomTypeRepository;
 
+        public RoomTypeService()
+        {
+            _roomTypeRepository = new RoomTypeRepo();
+        }
+
         public RoomTypeService(IRoomTypeRepo roomTypeRepo)
         {
             _roomTypeRepository = roomTypeRepo;
         }
 
-        public List<RoomType> GetAllRoomTypes() => _roomTypeRepository.GetAllRoomTypes();
+        public IEnumerable<RoomType> GetAllRoomTypes() => _roomTypeRepository.GetAllRoomTypes();
 
         public RoomType GetRoomTypeById(int id) => _roomTypeRepository.GetRoomTypeById(id);
 
-        public void AddRoomType(RoomType roomType)
-        {
-            try
-            {
-                _roomTypeRepository.AddRoomType(roomType);
-            }
-            catch (ArgumentException ex)
-            {
-                throw new Exception("Error adding room type: " + ex.Message);
-            }
-        }
+        public void AddRoomType(RoomType roomType) => _roomTypeRepository.AddRoomType(roomType);
 
         public void UpdateRoomType(RoomType roomType)
         {
-            try
+            var existingRoomType = _roomTypeRepository.GetRoomTypeById(roomType.RoomTypeID);
+            if (existingRoomType != null)
             {
                 _roomTypeRepository.UpdateRoomType(roomType);
             }
-            catch (ArgumentException ex)
+            else
             {
-                throw new Exception("Error updating room type: " + ex.Message);
+                throw new ArgumentException("RoomType not found");
             }
         }
 
-        public void DeleteRoomType(int id)
-        {
-            try
-            {
-                _roomTypeRepository.DeleteRoomType(id);
-            }
-            catch (ArgumentException ex)
-            {
-                throw new Exception("Error deleting room type: " + ex.Message);
-            }
-        }
+        public void DeleteRoomType(int id) => _roomTypeRepository.DeleteRoomType(id);
     }
 }

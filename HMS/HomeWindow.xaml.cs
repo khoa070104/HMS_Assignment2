@@ -1,16 +1,19 @@
 using System.Windows;
 using BusinessObjects;
+using Services;
 
 namespace HMSApp
 {
     public partial class HomeWindow : Window
     {
         private Customer _currentCustomer;
+        private readonly IRoomService _roomService;
 
         public HomeWindow(Customer customer)
         {
             InitializeComponent();
             _currentCustomer = customer;
+            _roomService = new RoomService();
             lblWelcome.Text = $"Hello, {customer.CustomerFullName}";
         }
 
@@ -22,7 +25,7 @@ namespace HMSApp
 
         private void BookingHistory_Click(object sender, RoutedEventArgs e)
         {
-            var historyWindow = new RoomHistoryWindow(_currentCustomer);
+            var historyWindow = new RoomHistoryWindow(_currentCustomer, _roomService);
             historyWindow.ShowDialog();
         }
 

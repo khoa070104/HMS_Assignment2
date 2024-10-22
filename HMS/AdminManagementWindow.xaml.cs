@@ -11,7 +11,7 @@ namespace HMSApp
         public AdminManagementWindow()
         {
             InitializeComponent();
-            _customerService = ServiceProvider.GetCustomerService();
+            _customerService = new CustomerService();
         }
 
         private void CustomerManagement_Click(object sender, RoutedEventArgs e)

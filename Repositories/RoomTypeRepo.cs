@@ -1,22 +1,60 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using BusinessObjects;
-using DataAccessLayer;
+using DataAccessObjects;
+using Microsoft.EntityFrameworkCore;
 
 namespace Repositories
 {
     public class RoomTypeRepo : IRoomTypeRepo
     {
-        private readonly RoomTypeDAO _roomTypeDao = new();
+        private readonly HmsDbContext _context;
 
-        public List<RoomType> GetAllRoomTypes() => _roomTypeDao.GetAllRoomTypes();
+        public RoomTypeRepo(HmsDbContext context)
+        {
+            _context = context;
+        }
 
-        public RoomType GetRoomTypeById(int roomTypeId) => _roomTypeDao.GetRoomTypeById(roomTypeId);
+        public RoomTypeRepo()
+        {
+            _context = new HmsDbContext();
+        }
 
-        public void AddRoomType(RoomType roomType) => _roomTypeDao.AddRoomType(roomType);
+        public IEnumerable<RoomType> GetAllRoomTypes()
+        {
+            return _context.RoomTypes.ToList();
+        }
 
-        public void UpdateRoomType(RoomType roomType) => _roomTypeDao.UpdateRoomType(roomType);
+        public RoomType GetRoomTypeById(int roomTypeId)
+        {
+            return _context.RoomTypes.Find(roomTypeId);
+        }
 
-        public void DeleteRoomType(int roomTypeId) => _roomTypeDao.DeleteRoomType(roomTypeId);
+        public void AddRoomType(RoomType roomType)
+        {
+            _context.RoomTypes.Add(roomType);
+            _context.SaveChanges();
+        }
+
+        public void UpdateRoomType(RoomType roomType)
+        {
+            var existingRoomType = _context.RoomTypes.Find(roomType.RoomTypeID);
+            if (existingRoomType != null)
+            {
+                _context.Entry(existingRoomType).CurrentValues.SetValues(roomType);
+                _context.SaveChanges();
+            }
+        }
+
+        public void DeleteRoomType(int roomTypeId)
+        {
+            var roomType = _context.RoomTypes.Find(roomTypeId);
+            if (roomType != null)
+            {
+                _context.RoomTypes.Remove(roomType);
+                _context.SaveChanges();
+            }
+        }
     }
 }

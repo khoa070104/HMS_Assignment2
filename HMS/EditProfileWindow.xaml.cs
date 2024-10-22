@@ -14,7 +14,7 @@ namespace HMSApp
         {
             InitializeComponent();
             _currentCustomer = customer;
-            _customerService = ServiceProvider.GetCustomerService();
+            _customerService = new CustomerService(); //ServiceProvider.GetCustomerService();
             LoadCustomerData();
         }
 

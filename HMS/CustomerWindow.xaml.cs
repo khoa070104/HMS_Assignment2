@@ -26,7 +26,7 @@ namespace HMSApp
         public CustomerWindow()
         {
             InitializeComponent();
-            _customerService = ServiceProvider.GetCustomerService();
+            _customerService = new CustomerService();
             LoadCustomerList();
         }
 
@@ -74,20 +74,26 @@ namespace HMSApp
             {
                 if (!string.IsNullOrEmpty(txtCustomerID.Text))
                 {
-                    Customer customer = new Customer
+                    int customerId = int.Parse(txtCustomerID.Text);
+                    var existingCustomer = _customerService.GetCustomerById(customerId);
+                    if (existingCustomer != null)
                     {
-                        CustomerID = int.Parse(txtCustomerID.Text),
-                        CustomerFullName = txtFullName.Text,
-                        Telephone = txtPhoneNumber.Text,
-                        EmailAddress = txtEmail.Text,
-                        CustomerBirthday = dpDateOfBirth.SelectedDate,
-                        CustomerStatus = ((ComboBoxItem)cboStatus.SelectedItem).Tag.ToString() == "1" ? 1 : 2,
-                        Password = txtPassword.Password
-                    };
-                    _customerService.UpdateCustomer(customer);
-                    MessageBox.Show("Khách hàng đã được cập nhật thành công!", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Information);
-                    resetInput();
-                    LoadCustomerList();
+                        existingCustomer.CustomerFullName = txtFullName.Text;
+                        existingCustomer.Telephone = txtPhoneNumber.Text;
+                        existingCustomer.EmailAddress = txtEmail.Text;
+                        existingCustomer.CustomerBirthday = dpDateOfBirth.SelectedDate;
+                        existingCustomer.CustomerStatus = ((ComboBoxItem)cboStatus.SelectedItem).Tag.ToString() == "1" ? 1 : 2;
+                        existingCustomer.Password = txtPassword.Password;
+
+                        _customerService.UpdateCustomer(existingCustomer);
+                        MessageBox.Show("Khách hàng đã được cập nhật thành công!", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Information);
+                        resetInput();
+                        LoadCustomerList();
+                    }
+                    else
+                    {
+                        MessageBox.Show("Không tìm thấy khách hàng!", "Lỗi", MessageBoxButton.OK, MessageBoxImage.Error);
+                    }
                 }
                 else
                 {

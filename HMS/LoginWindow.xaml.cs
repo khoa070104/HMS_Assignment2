@@ -13,6 +13,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using BusinessObjects;
 
 namespace HMSApp
 {
@@ -21,18 +22,14 @@ namespace HMSApp
     /// </summary>
     public partial class LoginWindow : Window
     {
-        private IConfiguration _configuration;
         private readonly ICustomerService _customerService;
+        private readonly IConfiguration _configuration;
 
         public LoginWindow()
         {
             InitializeComponent();
-            _customerService = ServiceProvider.GetCustomerService();
-            LoadConfiguration();
-        }
-
-        private void LoadConfiguration()
-        {
+            _customerService = new CustomerService();
+            
             var builder = new ConfigurationBuilder()
                 .SetBasePath(Directory.GetCurrentDirectory())
                 .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true);
@@ -44,10 +41,10 @@ namespace HMSApp
             string username = txtUser.Text;
             string password = txtPass.Password;
 
-            var adminEmail = _configuration["AdminCredentials:Email"];
+            var adminUsername = _configuration["AdminCredentials:Username"];
             var adminPassword = _configuration["AdminCredentials:Password"];
 
-            if (username == adminEmail && password == adminPassword)
+            if (username == adminUsername && password == adminPassword)
             {
                 AdminManagementWindow adminWindow = new AdminManagementWindow();
                 adminWindow.Show();
@@ -55,7 +52,7 @@ namespace HMSApp
             }
             else
             {
-                var customer = _customerService.GetCustomerByUsernameAndPassword(username, password);
+                Customer customer = _customerService.GetCustomerByUsernameAndPassword(username, password);
                 if (customer != null)
                 {
                     HomeWindow homeWindow = new HomeWindow(customer);
@@ -64,11 +61,10 @@ namespace HMSApp
                 }
                 else
                 {
-                    MessageBox.Show("Invalid username or password");
+                    MessageBox.Show("Invalid username or password", "Login Failed", MessageBoxButton.OK, MessageBoxImage.Error);
                 }
             }
         }
-
 
         private void btnCancel_Click(object sender, RoutedEventArgs e)
         {

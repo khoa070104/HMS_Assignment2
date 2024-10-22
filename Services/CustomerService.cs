@@ -17,7 +17,12 @@ namespace Services
             _customerRepository = customerRepo;
         }
 
-        public List<Customer> GetAllCustomers()
+        public CustomerService()
+        {
+            _customerRepository = new CustomerRepo();
+        }
+
+        public IEnumerable<Customer> GetAllCustomers()
         {
             return _customerRepository.GetAllCustomers();
         }

@@ -1,10 +1,10 @@
-using BusinessObjects;
 using System;
 using System.Collections.Generic;
+using BusinessObjects;
 
-namespace Repositories
+namespace Services
 {
-    public interface IBookingRepo
+    public interface IBookingService
     {
         void AddBooking(BookingReservation booking);
         IEnumerable<BookingReservation> GetBookingsByCustomer(int customerId);

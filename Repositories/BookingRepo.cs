@@ -1,27 +1,59 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using BusinessObjects;
+using DataAccessObjects;
+using Microsoft.EntityFrameworkCore;
 
-public class BookingRepo : IBookingRepo
+namespace Repositories
 {
-    private readonly BookingDAO _bookingDao = new BookingDAO();
-
-    public void AddBooking(Booking booking)
+    public class BookingRepo : IBookingRepo
     {
-        _bookingDao.AddBooking(booking);
-    }
+        private readonly HmsDbContext _context;
 
-    public List<Booking> GetBookingsByCustomer(int customerId)
-    {
-        return _bookingDao.GetBookingsByCustomer(customerId);
-    }
+        public BookingRepo()
+        {
+            _context = new HmsDbContext();
+        }
 
-    public List<int> GetBookedRooms(DateTime checkIn, DateTime checkOut)
-    {
-        return _bookingDao.GetBookedRooms(checkIn, checkOut);
-    }
+        public BookingRepo(HmsDbContext context)
+        {
+            _context = context;
+        }
 
-    public List<Booking> GetAllBookings()
-    {
-        return _bookingDao.GetAllBookings();
+        public void AddBooking(BookingReservation booking)
+        {
+            _context.BookingReservations.Add(booking);
+            _context.SaveChanges();
+        }
+
+        public IEnumerable<BookingReservation> GetBookingsByCustomer(int customerId)
+        {
+            return _context.BookingReservations
+                .Include(b => b.BookingDetails)
+                .ThenInclude(bd => bd.Room)
+                .Where(b => b.CustomerID == customerId)
+                .ToList();
+        }
+
+        public IEnumerable<int> GetBookedRooms(DateTime checkIn, DateTime checkOut)
+        {
+            return _context.BookingDetails
+                .Where(bd => 
+                    (bd.StartDate <= checkIn && checkIn < bd.EndDate) ||
+                    (bd.StartDate < checkOut && checkOut <= bd.EndDate) ||
+                    (checkIn <= bd.StartDate && bd.EndDate <= checkOut))
+                .Select(bd => bd.RoomID)
+                .Distinct()
+                .ToList();
+        }
+
+        public IEnumerable<BookingReservation> GetAllBookings()
+        {
+            return _context.BookingReservations
+                .Include(b => b.BookingDetails)
+                .ThenInclude(bd => bd.Room)
+                .ToList();
+        }
     }
 }

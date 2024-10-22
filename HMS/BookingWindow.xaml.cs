@@ -15,7 +15,7 @@ namespace HMSApp
         {
             InitializeComponent();
             _currentCustomer = customer;
-            _roomService = ServiceProvider.GetRoomService();
+            _roomService = new RoomService();
             LoadRoomTypes();
         }
 
@@ -58,7 +58,7 @@ namespace HMSApp
         {
             try
             {
-                var selectedRoom = (Room)dgAvailableRooms.SelectedItem;
+                var selectedRoom = (RoomInformation)dgAvailableRooms.SelectedItem;
                 if (selectedRoom == null)
                 {
                     MessageBox.Show("Vui lòng chọn một phòng để đặt.", "Cảnh báo", MessageBoxButton.OK, MessageBoxImage.Warning);

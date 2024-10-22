@@ -5,7 +5,7 @@ namespace Services
 {
     public interface IRoomTypeService
     {
-        List<RoomType> GetAllRoomTypes();
+        IEnumerable<RoomType> GetAllRoomTypes();
         RoomType GetRoomTypeById(int id);
         void AddRoomType(RoomType roomType);
         void UpdateRoomType(RoomType roomType);

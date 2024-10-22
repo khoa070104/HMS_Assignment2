@@ -9,7 +9,7 @@ namespace Repositories
 {
     public interface ICustomerRepo
     {
-        List<Customer> GetAllCustomers();
+        IEnumerable<Customer> GetAllCustomers();
         Customer GetCustomerById(int customerId);
         void AddCustomer(Customer customer);
         void UpdateCustomer(Customer customer);

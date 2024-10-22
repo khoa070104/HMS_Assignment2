@@ -5,7 +5,7 @@ namespace Repositories
 {
     public interface IRoomTypeRepo
     {
-        List<RoomType> GetAllRoomTypes();
+        IEnumerable<RoomType> GetAllRoomTypes();
         RoomType GetRoomTypeById(int roomTypeId);
         void AddRoomType(RoomType roomType);
         void UpdateRoomType(RoomType roomType);

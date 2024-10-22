@@ -1,7 +1,7 @@
 <Window x:Class="HMSApp.EditProfileWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="Edit Profile" Height="450" Width="400"
+        Title="Edit Profile" Height="400" Width="400"
         WindowStartupLocation="CenterScreen"
         FontFamily="Montserrat" FontWeight="Medium">
     <Grid>
@@ -11,15 +11,20 @@
                 <GradientStop Color="#FF347BDA" Offset="0.794"/>
             </LinearGradientBrush>
         </Grid.Background>
-        <StackPanel Margin="20">
-            <TextBlock Text="Edit Profile" FontSize="24" Margin="0,0,0,20" Foreground="White"/>
-            <TextBox x:Name="txtFullName" Margin="0,5" />
-            <TextBox x:Name="txtEmail" Margin="0,5" />
-            <TextBox x:Name="txtPhone" Margin="0,5" />
-            <DatePicker x:Name="dpBirthday" Margin="0,5" />
-            <PasswordBox x:Name="txtPassword" Margin="0,5" />
-            <Button Content="Save Changes" Margin="0,20" Click="SaveChanges_Click"
-                    Background="#FF1B7140" Foreground="White"/>
-        </StackPanel>
+
+        <TextBlock VerticalAlignment="Top" Text="Edit Profile" FontSize="24" Margin="10,10,-10,0" Foreground="White" FontWeight="Bold"/>
+        <TextBox VerticalAlignment="Top" x:Name="txtFullName" Margin="110,95,90,0" />
+        <TextBox VerticalAlignment="Top" x:Name="txtEmail" Margin="110,129,90,0" />
+        <TextBox VerticalAlignment="Top" x:Name="txtPhone" Margin="110,161,90,0" />
+        <DatePicker VerticalAlignment="Top" x:Name="dpBirthday" Margin="110,194,83,0" />
+        <PasswordBox VerticalAlignment="Top" x:Name="txtPassword" Margin="110,238,90,0" />
+        <Button VerticalAlignment="Top" Content="Save Changes" Click="SaveChanges_Click"
+                    Background="#FF1B7140" Foreground="White" Margin="110,290,94,0"/>
+        <TextBlock VerticalAlignment="Top" Text="Your Fullname:" FontSize="12" Margin="21,96,289,0" Foreground="White" FontWeight="Medium"/>
+        <TextBlock VerticalAlignment="Top" Text="Your Email:" FontSize="12" Margin="41,130,269,0" Foreground="White" FontWeight="Medium"/>
+        <TextBlock VerticalAlignment="Top" Text="Your Phone:" FontSize="12" Margin="36,162,274,0" Foreground="White" FontWeight="Medium"/>
+        <TextBlock VerticalAlignment="Top" Text="Your DOB:" FontSize="12" Margin="47,199,263,0" Foreground="White" FontWeight="Medium"/>
+        <TextBlock VerticalAlignment="Top" Text="Password:" FontSize="12" Margin="47,238,263,0" Foreground="White" FontWeight="Medium"/>
+
     </Grid>
 </Window>

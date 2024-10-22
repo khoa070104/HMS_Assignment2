@@ -15,8 +15,8 @@ namespace HMSApp
         public RoomWindow()
         {
             InitializeComponent();
-            _roomService = ServiceProvider.GetRoomService();
-            _roomTypeService = ServiceProvider.GetRoomTypeService();
+            _roomService = new RoomService();
+            _roomTypeService = new RoomTypeService();
             LoadRoomList();
             LoadRoomTypes();
         }
@@ -52,14 +52,14 @@ namespace HMSApp
         {
             try
             {
-                Room room = new Room
+                RoomInformation room = new RoomInformation
                 {
                     RoomNumber = txtRoomNumber.Text,
                     RoomDescription = txtDescription.Text,
                     RoomMaxCapacity = int.Parse(txtMaxCapacity.Text),
                     RoomPricePerDate = decimal.Parse(txtPricePerDate.Text),
                     RoomTypeID = (int)cboRoomType.SelectedValue,
-                    RoomStatus = 1 // Assuming 1 is for Active
+                    RoomStatus = 1 
                 };
                 _roomService.AddRoom(room);
                 resetInput();
@@ -77,7 +77,7 @@ namespace HMSApp
             {
                 if (!string.IsNullOrEmpty(txtRoomID.Text))
                 {
-                    Room room = new Room
+                    RoomInformation room = new RoomInformation
                     {
                         RoomID = int.Parse(txtRoomID.Text),
                         RoomNumber = txtRoomNumber.Text,
@@ -85,7 +85,7 @@ namespace HMSApp
                         RoomMaxCapacity = int.Parse(txtMaxCapacity.Text),
                         RoomPricePerDate = decimal.Parse(txtPricePerDate.Text),
                         RoomTypeID = (int)cboRoomType.SelectedValue,
-                        RoomStatus = 1 // Assuming 1 is for Active
+                        RoomStatus = 1 
                     };
                     _roomService.UpdateRoom(room);
                     resetInput();
@@ -136,7 +136,7 @@ namespace HMSApp
 
         private void dgData_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (dgData.SelectedItem != null && dgData.SelectedItem is Room room)
+            if (dgData.SelectedItem != null && dgData.SelectedItem is RoomInformation room)
             {
                 txtRoomID.Text = room.RoomID.ToString();
                 txtRoomNumber.Text = room.RoomNumber;
