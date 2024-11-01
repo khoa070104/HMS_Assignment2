@@ -23,6 +23,7 @@ namespace HMSApp
             txtFullName.Text = _currentCustomer.CustomerFullName;
             txtEmail.Text = _currentCustomer.EmailAddress;
             txtPhone.Text = _currentCustomer.Telephone;
+            txtPassword.Password = _currentCustomer.Password;
             dpBirthday.SelectedDate = _currentCustomer.CustomerBirthday;
         }
 

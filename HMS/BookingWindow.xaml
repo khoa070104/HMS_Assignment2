@@ -13,10 +13,11 @@
             </LinearGradientBrush>
         </Grid.Background>
         <StackPanel Margin="20">
+            
             <TextBlock Text="Book Room" FontSize="24" Margin="0,0,0,20" Foreground="White"/>
             <ComboBox x:Name="cboRoomType" DisplayMemberPath="RoomTypeName" Margin="0,5"/>
-            <DatePicker x:Name="dpCheckIn" Margin="0,5"/>
-            <DatePicker x:Name="dpCheckOut" Margin="0,5"/>
+            <DatePicker x:Name="dpCheckIn" Width="746" />
+            <DatePicker x:Name="dpCheckOut" Margin="0,5" Width="746"/>
             <Button Content="Search Available Rooms" Margin="0,10" Click="SearchRooms_Click"
                     Background="#FF0099FF" Foreground="White"/>
             <DataGrid x:Name="dgAvailableRooms" Height="200" Margin="0,10" AutoGenerateColumns="False" IsReadOnly="True">
@@ -29,5 +30,6 @@
             <Button Content="Book Selected Room" Margin="0,10" Click="BookRoom_Click"
                     Background="#FF1B7140" Foreground="White"/>
         </StackPanel>
+        <Label Content="Room Type:" HorizontalAlignment="Left" Margin="20,53,0,0" VerticalAlignment="Top"/>
     </Grid>
 </Window>

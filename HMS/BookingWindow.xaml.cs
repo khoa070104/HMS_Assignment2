@@ -32,7 +32,7 @@ namespace HMSApp
                 var roomType = (RoomType)cboRoomType.SelectedItem;
                 if (roomType == null)
                 {
-                    MessageBox.Show("Vui lòng chọn loại phòng.", "Cảnh báo", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    MessageBox.Show("Please choose room type to search", "Warning", MessageBoxButton.OK, MessageBoxImage.Warning);
                     return;
                 }
 
@@ -41,7 +41,7 @@ namespace HMSApp
 
                 if (!checkIn.HasValue || !checkOut.HasValue)
                 {
-                    MessageBox.Show("Vui lòng chọn ngày check-in và check-out.", "Cảnh báo", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    MessageBox.Show("Please choose check-in day and check-out day.", "Warning", MessageBoxButton.OK, MessageBoxImage.Warning);
                     return;
                 }
 
@@ -50,7 +50,7 @@ namespace HMSApp
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Lỗi khi tìm kiếm phòng: {ex.Message}", "Lỗi", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show($"Error to search room: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 
@@ -61,7 +61,7 @@ namespace HMSApp
                 var selectedRoom = (RoomInformation)dgAvailableRooms.SelectedItem;
                 if (selectedRoom == null)
                 {
-                    MessageBox.Show("Vui lòng chọn một phòng để đặt.", "Cảnh báo", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    MessageBox.Show("Please choose a room to book", "Warning", MessageBoxButton.OK, MessageBoxImage.Warning);
                     return;
                 }
 
@@ -69,12 +69,12 @@ namespace HMSApp
                 var checkOut = dpCheckOut.SelectedDate.Value;
 
                 _roomService.BookRoom(_currentCustomer.CustomerID, selectedRoom.RoomID, checkIn, checkOut);
-                MessageBox.Show("Đặt phòng thành công!", "Thành công", MessageBoxButton.OK, MessageBoxImage.Information);
+                MessageBox.Show("Booking Successfully!", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
                 this.Close();
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Lỗi khi đặt phòng: {ex.Message}", "Lỗi", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show($"Error to Booking: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
     }

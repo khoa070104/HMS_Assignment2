@@ -58,13 +58,13 @@ namespace HMSApp
                     Password = txtPassword.Password
                 };
                 _customerService.AddCustomer(customer);
-                MessageBox.Show("Khách hàng đã được thêm thành công!", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Information);
+                MessageBox.Show("Added Customer Success!", "Added", MessageBoxButton.OK, MessageBoxImage.Information);
                 resetInput();
                 LoadCustomerList();
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, "Lỗi", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show(ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 
@@ -86,23 +86,23 @@ namespace HMSApp
                         existingCustomer.Password = txtPassword.Password;
 
                         _customerService.UpdateCustomer(existingCustomer);
-                        MessageBox.Show("Khách hàng đã được cập nhật thành công!", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Information);
+                        MessageBox.Show("Updated Customer success!", "Updated!", MessageBoxButton.OK, MessageBoxImage.Information);
                         resetInput();
                         LoadCustomerList();
                     }
                     else
                     {
-                        MessageBox.Show("Không tìm thấy khách hàng!", "Lỗi", MessageBoxButton.OK, MessageBoxImage.Error);
+                        MessageBox.Show("Not Found Customer to update!", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                     }
                 }
                 else
                 {
-                    MessageBox.Show("Vui lòng chọn một khách hàng để cập nhật!", "Cảnh báo", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    MessageBox.Show("Please choose least 1 customer to update!", "Warning", MessageBoxButton.OK, MessageBoxImage.Warning);
                 }
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, "Lỗi", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show(ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 
@@ -110,26 +110,27 @@ namespace HMSApp
         {
             try
             {
+                
                 if (!string.IsNullOrEmpty(txtCustomerID.Text))
                 {
                     int customerId = int.Parse(txtCustomerID.Text);
-                    var result = MessageBox.Show("Bạn có chắc chắn muốn xóa khách hàng này?", "Xác nhận xóa", MessageBoxButton.YesNo, MessageBoxImage.Question);
+                    var result = MessageBox.Show("Are you okey?", "Remove Customer Confirm", MessageBoxButton.YesNo, MessageBoxImage.Question);
                     if (result == MessageBoxResult.Yes)
                     {
                         _customerService.DeleteCustomer(customerId);
-                        MessageBox.Show("Khách hàng đã được xóa thành công!", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Information);
+                        MessageBox.Show("Removed Customer Success!", "Removed", MessageBoxButton.OK, MessageBoxImage.Information);
                         resetInput();
                         LoadCustomerList();
                     }
                 }
                 else
                 {
-                    MessageBox.Show("Vui lòng chọn một khách hàng để xóa!", "Cảnh báo", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    MessageBox.Show("Please choose least 1 customer to delete!", "Warning", MessageBoxButton.OK, MessageBoxImage.Warning);
                 }
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, "Lỗi", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show(ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 

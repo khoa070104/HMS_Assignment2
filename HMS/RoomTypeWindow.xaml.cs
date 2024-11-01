@@ -44,6 +44,8 @@ namespace HMSApp
                 _roomTypeService.AddRoomType(roomType);
                 resetInput();
                 LoadRoomTypeList();
+                MessageBox.Show("Created Room Type", "Created", MessageBoxButton.OK, MessageBoxImage.Information);
+
             }
             catch (Exception ex)
             {
@@ -65,18 +67,18 @@ namespace HMSApp
                         TypeNote = txtTypeNote.Text
                     };
                     _roomTypeService.UpdateRoomType(roomType);
-                    MessageBox.Show("Loại phòng đã được cập nhật thành công!", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Information);
+                    MessageBox.Show("Updated Room Type", "Updated", MessageBoxButton.OK, MessageBoxImage.Information);
                     resetInput();
                     LoadRoomTypeList();
                 }
                 else
                 {
-                    MessageBox.Show("Vui lòng chọn một loại phòng để cập nhật!", "Cảnh báo", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    MessageBox.Show("Please choose least 1 room type to update", "Warning", MessageBoxButton.OK, MessageBoxImage.Warning);
                 }
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, "Lỗi", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show(ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 
@@ -84,12 +86,17 @@ namespace HMSApp
         {
             try
             {
+                var tag = MessageBox.Show("Are you okey ?", "Delete?", MessageBoxButton.YesNo, MessageBoxImage.Warning).ToString();
+                if (tag.Equals("No"))
+                    return;
                 if (!string.IsNullOrEmpty(txtRoomTypeID.Text))
                 {
                     int roomTypeId = int.Parse(txtRoomTypeID.Text);
                     _roomTypeService.DeleteRoomType(roomTypeId);
                     resetInput();
                     LoadRoomTypeList();
+                    MessageBox.Show("Deleted Room Type", "Deleted", MessageBoxButton.OK, MessageBoxImage.Information);
+
                 }
                 else
                 {

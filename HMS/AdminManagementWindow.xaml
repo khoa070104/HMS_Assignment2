@@ -14,7 +14,7 @@
                 <GradientStop Color="#FF472FDE" Offset="0.484"/>
             </LinearGradientBrush>
         </Grid.Background>
-        <TextBlock x:Name="lblWelcome" Text="Hello, Admin" FontSize="24" Margin="10,10,626,391" Foreground="White" FontStyle="Italic"/>
+        <TextBlock VerticalAlignment="Top" x:Name="lblWelcome" Text="Hello, Admin" FontSize="24" Margin="10,10,626,0" Foreground="White" FontStyle="Italic" />
         <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
             
             <Button Content="Customer Management" Click="CustomerManagement_Click" 

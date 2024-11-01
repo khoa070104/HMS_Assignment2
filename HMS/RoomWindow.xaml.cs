@@ -61,6 +61,8 @@ namespace HMSApp
                     RoomTypeID = (int)cboRoomType.SelectedValue,
                     RoomStatus = 1 
                 };
+                MessageBox.Show("Created Room", "Created", MessageBoxButton.OK, MessageBoxImage.Information);
+
                 _roomService.AddRoom(room);
                 resetInput();
                 LoadRoomList();
@@ -90,6 +92,7 @@ namespace HMSApp
                     _roomService.UpdateRoom(room);
                     resetInput();
                     LoadRoomList();
+                    MessageBox.Show("Updated Room", "Updated", MessageBoxButton.OK, MessageBoxImage.Information);
                 }
                 else
                 {
@@ -106,12 +109,16 @@ namespace HMSApp
         {
             try
             {
+                var tag = MessageBox.Show("Are you okey ?", "Delete?", MessageBoxButton.YesNo, MessageBoxImage.Warning).ToString();
+                if (tag.Equals("No"))
+                    return;
                 if (!string.IsNullOrEmpty(txtRoomID.Text))
                 {
                     int roomId = int.Parse(txtRoomID.Text);
                     _roomService.DeleteRoom(roomId);
                     resetInput();
                     LoadRoomList();
+                    MessageBox.Show("Deleted Success!", "Deleted", MessageBoxButton.OK, MessageBoxImage.Information);
                 }
                 else
                 {

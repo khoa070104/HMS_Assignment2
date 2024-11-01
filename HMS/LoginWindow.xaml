@@ -52,7 +52,7 @@
                                Width="445" Height="42"/>
                 </StackPanel>
                 <StackPanel Orientation="Vertical" Margin="82,50,82,68" Grid.Row="2">
-                    <TextBlock Text="Username"
+                    <TextBlock Text="Username/Gmail"
                                Foreground="DarkGray"
                                FontSize="12"
                                FontWeight="Medium"

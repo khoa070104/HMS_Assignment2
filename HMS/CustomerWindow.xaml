@@ -37,7 +37,7 @@
 
 
 
-        <Label x:Name="label5" VerticalAlignment="Top" Margin="457,71,268,0" Content="Date of Birth" Grid.Column="0"/>
+        <Label x:Name="label5" VerticalAlignment="Top" Margin="457,71,253,0" Content="Date of Birth" Grid.Column="0"/>
         <DatePicker x:Name="dpDateOfBirth" Margin="541,70,0,0" VerticalAlignment="Top" Height="27" />
 
         <Label x:Name="label6" Margin="481,108,271,0" Content="Status" VerticalAlignment="Top" RenderTransformOrigin="0.504,0.899"/>
@@ -71,7 +71,7 @@
 
         <Button x:Name="btnClose" VerticalAlignment="Top" Content="Close" HorizontalAlignment="Left" Margin="661,595,0,0" Width="120" Background="#FFEF8F18" Foreground="White" Click="btnClose_Click" Height="30"/>
         <PasswordBox x:Name="txtPassword" Margin="114,146,369,0" VerticalAlignment="Top" Height="28" />
-        <Label x:Name="label7" VerticalAlignment="Top" Margin="23,145,721,0" Content="Password" Grid.Column="0"/>
+        <Label x:Name="label7" VerticalAlignment="Top" Margin="23,145,709,0" Content="Password" Grid.Column="0"/>
 
     </Grid>
 </Window>
